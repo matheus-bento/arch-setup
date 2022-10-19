@@ -73,8 +73,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 info "Change the root password"
 passwd
 
-pacman -S --noconfirm sudo
-
 cat /etc/sudoers | sed 's/# %sudo/%sudo/' > ./new-sudoers
 mv ./new-sudoers /etc/sudoers
 
@@ -88,4 +86,43 @@ useradd -m -G sudo "$USERNAME"
 
 info "Change your user password"
 passwd "$USERNAME"
+
+# 5. GUI configuration
+
+info "Setting up the GUI"
+
+info "Installing Xorg"
+
+pacman -S --noconfirm xorg xorg-xinit
+
+USER_HOME="/home/$USERNAME"
+
+# Copying the default xinitrc, removing the last 5 lines and replacing them
+# with a call to execute dwm automatically on xorg initialization
+cat /etc/X11/xinit/xinitrc | head -n -5 > "$USER_HOME/.xinitrc"
+echo "exec dwm" >> "$USER_HOME/.xinitrc"
+
+# Initializing xorg after logging in to the created user
+printf "\nif [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" -eq 1 ]; then\
+    exec startx
+fi" >> "$USER_HOME/.bash_profile"
+
+info "Installing dwm"
+
+git clone https://git.suckless.org/dwm "$USER_HOME/repo/suckless/dwm"
+cd "$USER_HOME/repo/suckless/dwm"
+
+make install
+
+info "Installing st"
+
+git clone https://git.suckless.org/st "$USER_HOME/repo/suckless/st"
+cd "$USER_HOME/repo/suckless/st"
+
+make install
+
+info "All suckless programs were clone into $USER_HOME/repo/suckless/\n\
+In order to update those, just pull and install it again using make"
+
+info "Installation complete. You can now restart the computer and login as $USERNAME"
 
