@@ -16,7 +16,7 @@ cat /etc/locale.gen | sed "s/#pt_BR.UTF-8/pt_BR.UTF-8/; \
 mv ./new-locale.gen /etc/locale.gen
 locale-gen
 
-echo -e "LANG=pt_BR.UTF-8\n\
+printf "LANG=pt_BR.UTF-8\n\
 LC_MESSAGES=en_US.UTF-8" > /etc/locale.conf
 
 # Configures the system to use the abnt2 keyboard layout
@@ -34,9 +34,9 @@ netctl enable ethernet-dhcp
 
 HOSTNAME="archlinux.desktop"
 
-cat "$HOSTNAME" > /etc/hostname
+echo "$HOSTNAME" > /etc/hostname
 
-cat "127.0.0.1        localhost\n\
+printf "127.0.0.1        localhost\n\
 ::1              localhost\n\
 127.0.1.1        $HOSTNAME        localhost" > /etc/hosts
 
