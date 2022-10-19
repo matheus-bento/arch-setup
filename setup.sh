@@ -8,6 +8,8 @@ info() {
 
 # 1. Localization
 
+info "Configuring localization"
+
 # Configures the system to use brazilian portuguese as the system language
 cat /etc/locale.gen | sed "s/#pt_BR.UTF-8/pt_BR.UTF-8/; \
                            s/#en_US.UTF-8/en_US.UTF-8/" > ./new-locale.gen
@@ -21,6 +23,9 @@ LC_MESSAGES=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 
 # 2. Networking
+
+info "Configuring networking"
+
 pacman -S --noconfirm netctl dhcpcd
 
 # Creating a profile from the provided example directory
