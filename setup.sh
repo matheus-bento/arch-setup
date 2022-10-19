@@ -103,9 +103,9 @@ cat /etc/X11/xinit/xinitrc | head -n -5 > "$USER_HOME/.xinitrc"
 echo "exec dwm" >> "$USER_HOME/.xinitrc"
 
 # Initializing xorg after logging in to the created user
-printf "\nif [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" -eq 1 ]; then\
-    exec startx
-fi" >> "$USER_HOME/.bash_profile"
+printf "\nif [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" -eq 1 ]; then\n\
+    exec startx\n\
+fi\n" >> "$USER_HOME/.bash_profile"
 
 info "Installing dwm"
 
