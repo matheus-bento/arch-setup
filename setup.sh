@@ -73,8 +73,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 info "Change the root password"
 passwd
 
-read -p "Inform the user name" USERNAME
+read -p "Inform the user name: " USERNAME
 
 useradd -m "$USERNAME"
+
+info "Change your user password"
 passwd "$USERNAME"
 
