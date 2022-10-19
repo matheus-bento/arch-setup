@@ -73,9 +73,14 @@ grub-mkconfig -o /boot/grub/grub.cfg
 info "Change the root password"
 passwd
 
+pacman -S --noconfirm sudo
+
+cat /etc/sudoers | sed 's/# %sudo/%sudo/' > ./new-sudoers
+mv ./new-sudoers /etc/sudoers
+
 read -p "Inform the user name: " USERNAME
 
-useradd -m "$USERNAME"
+useradd -m -G sudo "$USERNAME"
 
 info "Change your user password"
 passwd "$USERNAME"
