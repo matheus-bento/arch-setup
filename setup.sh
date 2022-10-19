@@ -20,3 +20,18 @@ LC_MESSAGES=en_US.UTF-8" > /etc/locale.conf
 # Configures the system to use the abnt2 keyboard layout
 echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 
+# 2. Networking
+pacman -S --noconfirm netctl dhcpcd
+
+# Creating a profile from the provided example directory
+cat /etc/netctl/examples/ethernet-dhcp | sed "s/#DHCPClient=dhcpcd/DHCPClient=dhcpcd/" > /etc/netctl/ethernet-dhcp
+netctl enable ethernet-dhcp
+
+HOSTNAME="archlinux.desktop"
+
+cat "$HOSTNAME" > /etc/hostname
+
+cat "127.0.0.1        localhost\n\
+::1              localhost\n\
+127.0.1.1        $HOSTNAME        localhost" > /etc/hosts
+
