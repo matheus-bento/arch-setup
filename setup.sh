@@ -80,6 +80,10 @@ mv ./new-sudoers /etc/sudoers
 
 read -p "Inform the user name: " USERNAME
 
+if [[ -z "$(cat /etc/group | grep sudo)" ]]; then
+    groupadd sudo
+fi
+
 useradd -m -G sudo "$USERNAME"
 
 info "Change your user password"
