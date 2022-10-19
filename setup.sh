@@ -68,6 +68,13 @@ fi
 # installed on mounted disks and add them to the generated config.
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# 4. User creation
+
 info "Change the root password"
 passwd
+
+read -p "Inform the user name" USERNAME
+
+useradd -m "$USERNAME"
+passwd "$USERNAME"
 
