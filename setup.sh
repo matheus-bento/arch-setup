@@ -6,6 +6,18 @@ info() {
     printf "\033[0;32m%b\033[0m\n" "$1"
 }
 
+# Applies a git patch. Used to add patches to suckless applications.
+# Assumes you are running this function inside the target repo
+
+apply-patch() {
+    local PATCH_URL=$1
+    local PATCH_NAME="$(echo "$PATCH_URL" | tr '/' '\n' | tail -1)"
+
+    curl -O "$PATCH_URL"
+    git apply "$PATCH_NAME"
+    rm -v "./$PATCH_NAME"
+}
+
 # 1. Localization
 
 info "Configuring localization"
@@ -112,12 +124,21 @@ info "Installing dwm"
 git clone https://git.suckless.org/dwm "$USER_HOME/repo/suckless/dwm"
 cd "$USER_HOME/repo/suckless/dwm"
 
+apply-patch "https://dwm.suckless.org/patches/center_first_window/dwm-centerfirstwindow-6.2.diff"
+apply-patch "https://dwm.suckless.org/patches/centretitle/dwm-centretitle-20200907-61bb8b2.diff"
+apply-patch "https://dwm.suckless.org/patches/gaps/dwm-gaps-6.0.diff"
+
 make install
 
 info "Installing st"
 
 git clone https://git.suckless.org/st "$USER_HOME/repo/suckless/st"
 cd "$USER_HOME/repo/suckless/st"
+
+apply-patch "https://st.suckless.org/patches/dracula/st-dracula-0.8.5.diff"
+apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-0.8.5.diff"
+apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-reflow-0.8.5.diff"
+apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-mouse-20220127-2c5edf2.diff"
 
 make install
 
