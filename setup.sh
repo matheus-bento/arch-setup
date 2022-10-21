@@ -14,7 +14,7 @@ apply-patch() {
     local PATCH_NAME="$(echo "$PATCH_URL" | tr '/' '\n' | tail -1)"
 
     curl -O "$PATCH_URL"
-    git apply "$PATCH_NAME"
+    patch -i "$PATCH_NAME"
     rm -v "./$PATCH_NAME"
 }
 
