@@ -109,19 +109,6 @@ pacman -S --noconfirm xorg xorg-xinit gnu-free-fonts
 
 USER_HOME="/home/$USERNAME"
 
-# Configuring Xorg to use the brazilian keyboard layout by default
-printf "Section \"InputClass\"\n\
-        Identifier \"system-keyboard\"\n\
-        Option \"XkbLayout\" \"br\"\n\
-EndSection" > /etc/X11/xorg.conf.d/00-keyboard.conf
-
-# Configuring the connected monitor to use 1920x1080
-printf "Section \"Monitor\"\n\
-        Identifier \"$(xrandr | grep "connected" -m 1 | awk -F'[ ]' '{print $1}')\"\n\
-	$(cvt 1920 1080)\n\
-	Option "PreferredMode" $(cvt 1920 1080 | tail -1 | awk '{print $2}')\n\
-EndSection" > /etc/X11/xorg.conf.d/10-monitor.conf
-
 # Copying the default xinitrc, removing the last 5 lines and replacing them
 # with a call to execute dwm automatically on xorg initialization
 cat /etc/X11/xinit/xinitrc | head -n -5 > "$USER_HOME/.xinitrc"
@@ -162,4 +149,5 @@ info "All suckless programs were clone into $USER_HOME/repo/suckless/\n\
 In order to update those, just pull and install it again using make"
 
 info "Installation complete. You can now restart the computer and login as $USERNAME"
+info "After rebooting, run xorg-setup.sh as root to configure your keyboard layout and monitor resolution"
 
