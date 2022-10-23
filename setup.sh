@@ -105,7 +105,7 @@ info "Setting up the GUI"
 
 info "Installing Xorg"
 
-pacman -S --noconfirm xorg xorg-xinit
+pacman -S --noconfirm xorg xorg-xinit gnu-free-fonts
 
 USER_HOME="/home/$USERNAME"
 
