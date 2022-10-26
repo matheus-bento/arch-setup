@@ -6,12 +6,26 @@ info() {
     printf "\033[0;32m%b\033[0m\n" "$1"
 }
 
-info "Configuring keyboard layout"
+while true; do
+    info "Choose your preferred keyboard layout (type \"l\" to list available layouts)"
+
+    read LAYOUT
+
+    case $LAYOUT in
+        l)
+            localectl list-x11-keymap-layouts
+            ;;
+        *)
+            [ ! -z "$(localectl list-x11-keymap-layouts | grep -x "$LAYOUT")" ] && break;
+            echo "Invalid layout"
+            ;;
+    esac
+done
 
 # Configuring Xorg to use the brazilian keyboard layout by default
 printf "Section \"InputClass\"\n\
         Identifier \"system-keyboard\"\n\
-        Option \"XkbLayout\" \"br\"\n\
+        Option \"XkbLayout\" \"$LAYOUT\"\n\
 EndSection" > /etc/X11/xorg.conf.d/00-keyboard.conf
 
 info "Configuring monitor resolution"
