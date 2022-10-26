@@ -23,7 +23,7 @@ apply-patch() {
 info "Configuring localization"
 
 while true; do
-    info "Choose your preferred system locale (type \"l\" to list available locales)\n"
+    info "Choose your preferred system locale (type \"l\" to list available locales)"
 
     read LOCALE
 
@@ -46,7 +46,7 @@ locale-gen
 printf "LANG=$LOCALE" > /etc/locale.conf
 
 while true; do
-    info "Choose your preferred keyboard layout (type \"l\" to list available layouts)\n"
+    info "Choose your preferred keyboard layout (type \"l\" to list available layouts)"
 
     read KEYMAP
 
