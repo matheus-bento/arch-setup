@@ -152,7 +152,7 @@ cd "$USER_HOME/repo/suckless/dwm"
 
 apply-patch "https://dwm.suckless.org/patches/center_first_window/dwm-centerfirstwindow-6.2.diff"
 apply-patch "https://dwm.suckless.org/patches/centretitle/dwm-centretitle-20200907-61bb8b2.diff"
-apply-patch "https://dwm.suckless.org/patches/gaps/dwm-gaps-6.0.diff"
+apply-patch "https://dwm.suckless.org/patches/uselessgap/dwm-uselessgap-20211119-58414bee958f2.diff"
 
 make install
 
