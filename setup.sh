@@ -147,16 +147,6 @@ printf "\nif [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" -eq 1 ]; then\n\
     exec startx\n\
 fi\n" >> "$USER_HOME/.bash_profile"
 
-info "Installing yay (AUR helper)"
-
-git clone https://aur.archlinux.org/yay.git "$USER_HOME/repo/"
-cd "$USER_HOME/repo/yay"
-
-makepkg -si
-
-# Patched font used by st and dwm
-yay -S nerd-fonts-fira-code
-
 info "Installing dwm"
 
 git clone https://git.suckless.org/dwm "$USER_HOME/repo/suckless/dwm"
