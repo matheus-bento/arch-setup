@@ -20,8 +20,6 @@ apply-patch() {
 
 # 1. Localization
 
-info "Configuring localization"
-
 while true; do
     info "Choose your preferred system locale (type \"l\" to list available locales)"
 
