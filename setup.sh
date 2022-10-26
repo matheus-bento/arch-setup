@@ -22,17 +22,46 @@ apply-patch() {
 
 info "Configuring localization"
 
-# Configures the system to use brazilian portuguese as the system language
-cat /etc/locale.gen | sed "s/#pt_BR.UTF-8/pt_BR.UTF-8/; \
-                           s/#en_US.UTF-8/en_US.UTF-8/" > ./new-locale.gen
+while true; do
+    info "Choose your preferred system locale (type \"l\" to list available locales)\n"
+
+    read LOCALE
+
+    case $LOCALE in
+        l)
+            cat /usr/share/i18n/SUPPORTED | sed "s/#//g" | awk '{print $1}' | less
+            ;;
+        *)
+            [ ! -z "$(grep "$LOCALE" /usr/share/i18n/SUPPORTED)" ] && break;
+            echo "Invalid locale"
+            ;;
+    esac
+done
+
+cat /etc/locale.gen | sed "s/#$LOCALE/$LOCALE/" > ./new-locale.gen
 mv ./new-locale.gen /etc/locale.gen
+
 locale-gen
 
-printf "LANG=pt_BR.UTF-8\n\
-LC_MESSAGES=en_US.UTF-8" > /etc/locale.conf
+printf "LANG=$LOCALE" > /etc/locale.conf
 
-# Configures the system to use the abnt2 keyboard layout
-echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
+while true; do
+    info "Choose your preferred keyboard layout (type \"l\" to list available layouts)\n"
+
+    read KEYMAP
+
+    case $KEYMAP in
+        l)
+            localectl list-keymaps
+            ;;
+        *)
+            [ ! -z "$(localectl list-keymaps | grep "$KEYMAP")" ] && break;
+            echo "Invalid keymap"
+            ;;
+    esac
+done
+
+echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
 
 # 2. Networking
 
@@ -90,14 +119,14 @@ mv ./new-sudoers /etc/sudoers
 
 read -p "Inform the user name: " USERNAME
 
-if [[ -z "$(cat /etc/group | grep sudo)" ]]; then
-    groupadd sudo
-fi
+[[ -z "$(cat /etc/group | grep sudo)" ]] && groupadd sudo
 
 useradd -m -G sudo "$USERNAME"
 
 info "Change your user password"
 passwd "$USERNAME"
+
+USER_HOME="/home/$USERNAME"
 
 # 5. GUI configuration
 
@@ -106,8 +135,6 @@ info "Setting up the GUI"
 info "Installing Xorg"
 
 pacman -S --noconfirm xorg xorg-xinit gnu-free-fonts
-
-USER_HOME="/home/$USERNAME"
 
 # Copying the default xinitrc, removing the last 5 lines and replacing them
 # with a call to execute dwm automatically on xorg initialization
@@ -142,6 +169,7 @@ apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-mouse-2022
 
 make install
 
+# Changing ownership of everything in the user home directory to the newly created user
 chown -R "$USERNAME" "$USER_HOME"
 chgrp -R "$USERNAME" "$USER_HOME"
 
