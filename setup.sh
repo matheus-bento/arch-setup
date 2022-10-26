@@ -117,7 +117,8 @@ passwd
 cat /etc/sudoers | sed 's/# %sudo/%sudo/' > ./new-sudoers
 mv ./new-sudoers /etc/sudoers
 
-read -p "Inform the user name: " USERNAME
+info "Inform your new user name:"
+read USERNAME
 
 [[ -z "$(cat /etc/group | grep sudo)" ]] && groupadd sudo
 
