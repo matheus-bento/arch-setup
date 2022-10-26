@@ -18,6 +18,8 @@ apply-patch() {
     rm -v "./$PATCH_NAME"
 }
 
+SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
+
 # 1. Localization
 
 while true; do
@@ -154,6 +156,8 @@ apply-patch "https://dwm.suckless.org/patches/center_first_window/dwm-centerfirs
 apply-patch "https://dwm.suckless.org/patches/centretitle/dwm-centretitle-20200907-61bb8b2.diff"
 apply-patch "https://dwm.suckless.org/patches/uselessgap/dwm-uselessgap-20211119-58414bee958f2.diff"
 
+cp "$SCRIPT_DIR/config/dwm/config.h" "$USER_HOME/repo/suckless/dwm"
+
 make install
 
 info "Installing st"
@@ -165,6 +169,8 @@ apply-patch "https://st.suckless.org/patches/dracula/st-dracula-0.8.5.diff"
 apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-0.8.5.diff"
 apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-reflow-0.8.5.diff"
 apply-patch "https://st.suckless.org/patches/scrollback/st-scrollback-mouse-20220127-2c5edf2.diff"
+
+cp "$SCRIPT_DIR/config/st/config.h" "$USER_HOME/repo/suckless/st"
 
 make install
 
