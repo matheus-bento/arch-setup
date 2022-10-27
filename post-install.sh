@@ -29,7 +29,7 @@ done
 printf "Section \"InputClass\"\n\
         Identifier \"system-keyboard\"\n\
         Option \"XkbLayout\" \"$LAYOUT\"\n\
-EndSection" > /etc/X11/xorg.conf.d/00-keyboard.conf
+EndSection\n" | sudo tee /etc/x11/xorg.conf.d/00-keyboard.conf 1>/dev/null
 
 info "Configuring monitor resolution"
 
@@ -38,7 +38,7 @@ printf "Section \"Monitor\"\n\
         Identifier \"$(xrandr | grep "connected" -m 1 | awk -F'[ ]' '{print $1}')\"\n\
 	$(cvt 1920 1080)\n\
 	Option \"PreferredMode\" $(cvt 1920 1080 | tail -1 | awk '{print $2}')\n\
-EndSection" > /etc/X11/xorg.conf.d/10-monitor.conf
+EndSection\n" | sudo tee /etc/X11/xorg.conf.d/10-monitor.conf 1>/dev/null
 
 info "Xorg mouse and monitor configuration done"
 

@@ -137,6 +137,9 @@ done
 
 USER_HOME="/home/$USERNAME"
 
+# Moving the post install script to the new user's home
+cp "$SCRIPT_DIR/post-install.sh" "$USER_HOME"
+
 # 5. GUI configuration
 
 info "Setting up the GUI"
@@ -195,6 +198,6 @@ info "Moving utilitary scripts into /usr/local/bin"
 
 sudo cp -v "$SCRIPT_DIR/bin/"* /usr/local/bin/
 
-info "Installation complete. You can now restart the computer and login as $USERNAME"
-info "After rebooting, run xorg-setup.sh as root to configure your keyboard layout and monitor resolution"
+info "Installation complete. You can now restart the computer and login as $USERNAME\n"
+info "After rebooting, run post-install.sh located at $USER_HOME to make some aesthetic post install settings"
 
