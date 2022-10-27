@@ -181,6 +181,12 @@ chgrp -R "$USERNAME" "$USER_HOME"
 info "All suckless programs were clone into $USER_HOME/repo/suckless/\n\
 In order to update those, just pull and install it again using make"
 
+# 6. Applying utilitary scripts
+
+info "Moving utilitary scripts into /usr/local/bin"
+
+sudo cp -v "$SCRIPT_DIR/bin/*" /usr/local/bin/
+
 info "Installation complete. You can now restart the computer and login as $USERNAME"
 info "After rebooting, run xorg-setup.sh as root to configure your keyboard layout and monitor resolution"
 

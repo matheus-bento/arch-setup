@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Kills the dwm process, leading back to the login screen
+kill -9 "$(ps -a | awk '/dwm/{ print $1 }')"
+
