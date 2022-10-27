@@ -112,7 +112,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # 4. User creation
 
 info "Change the root password"
-passwd
+
+while true; do
+    passwd
+    [ "$?" -eq 0 ] && break
+done
 
 cat /etc/sudoers | sed 's/# %sudo/%sudo/' > ./new-sudoers
 mv ./new-sudoers /etc/sudoers
@@ -125,7 +129,11 @@ read USERNAME
 useradd -m -G sudo "$USERNAME"
 
 info "Change your user password"
-passwd "$USERNAME"
+
+while true; do
+    passwd "$USERNAME"
+    [ "$?" -eq 0 ] && break
+done
 
 USER_HOME="/home/$USERNAME"
 
