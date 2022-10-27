@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# This script runs some extra configurations for the graphic environment
+# after the applications have been installed by setup.sh
+
 # Prints a message in green into stdout
 
 info() {
@@ -37,5 +40,18 @@ printf "Section \"Monitor\"\n\
 	Option \"PreferredMode\" $(cvt 1920 1080 | tail -1 | awk '{print $2}')\n\
 EndSection" > /etc/X11/xorg.conf.d/10-monitor.conf
 
-info "Xorg mouse and monitor configuration done. Reboot your computer to apply those changes"
+info "Xorg mouse and monitor configuration done"
+
+info "Installing yay"
+
+git clone https://aur.archlinux.org/yay ~/repo/aur/yay
+cd ~/repo/aur/yay
+
+makepkg -si
+
+info "Installing some extra fonts"
+
+yay -S --noconfirm nerd-fonts-fira-code
+
+info "Post install configuration done. Restart to apply those changes"
 
