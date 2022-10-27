@@ -53,5 +53,5 @@ info "Installing some extra fonts"
 
 yay -S --noconfirm nerd-fonts-fira-code
 
-info "Post install configuration done. Restart to apply those changes"
+info "Post install configuration done. Log out to apply those changes"
 
