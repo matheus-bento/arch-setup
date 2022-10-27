@@ -29,7 +29,7 @@ done
 printf "Section \"InputClass\"\n\
         Identifier \"system-keyboard\"\n\
         Option \"XkbLayout\" \"$LAYOUT\"\n\
-EndSection\n" | sudo tee /etc/x11/xorg.conf.d/00-keyboard.conf 1>/dev/null
+EndSection\n" | sudo tee /etc/X11/xorg.conf.d/00-keyboard.conf 1>/dev/null
 
 info "Configuring monitor resolution"
 
