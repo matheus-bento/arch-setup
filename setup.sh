@@ -198,6 +198,6 @@ info "Moving utilitary scripts into /usr/local/bin"
 
 sudo cp -v "$SCRIPT_DIR/bin/"* /usr/local/bin/
 
-info "Installation complete. You can now restart the computer and login as $USERNAME\n"
+info "Installation complete. You can now restart the computer and login as $USERNAME"
 info "After rebooting, run post-install.sh located at $USER_HOME to make some aesthetic post install settings"
 
