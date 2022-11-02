@@ -3,19 +3,19 @@
 # Prints a message in green into stdout
 
 info() {
-    printf "\033[0;32m%b\033[0m\n" "$1"
+	printf "\033[0;32m%b\033[0m\n" "$1"
 }
 
 # Applies a git patch. Used to add patches to suckless applications.
 # Assumes you are running this function inside the target repo
 
 apply-patch() {
-    local PATCH_URL=$1
-    local PATCH_NAME="$(echo "$PATCH_URL" | tr '/' '\n' | tail -1)"
+	local PATCH_URL=$1
+	local PATCH_NAME="$(echo "$PATCH_URL" | tr '/' '\n' | tail -1)"
 
-    curl -O "$PATCH_URL"
-    patch -i "$PATCH_NAME"
-    rm -v "./$PATCH_NAME"
+	curl -O "$PATCH_URL"
+	patch -i "$PATCH_NAME"
+	rm -v "./$PATCH_NAME"
 }
 
 SCRIPT_DIR="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
@@ -23,19 +23,19 @@ SCRIPT_DIR="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
 # 1. Localization
 
 while true; do
-    info "Choose your preferred system locale (type \"l\" to list available locales)"
+	info "Choose your preferred system locale (type \"l\" to list available locales)"
 
-    read LOCALE
+	read LOCALE
 
-    case $LOCALE in
-        l)
-            cat /usr/share/i18n/SUPPORTED | sed "s/#//g" | awk '{print $1}' | less
-            ;;
-        *)
-            [ ! -z "$(grep "$LOCALE" /usr/share/i18n/SUPPORTED)" ] && break;
-            echo "Invalid locale"
-            ;;
-    esac
+	case $LOCALE in
+		l)
+			cat /usr/share/i18n/SUPPORTED | sed "s/#//g" | awk '{print $1}' | less
+			;;
+		*)
+			[ ! -z "$(grep "$LOCALE" /usr/share/i18n/SUPPORTED)" ] && break;
+			echo "Invalid locale"
+			;;
+	esac
 done
 
 cat /etc/locale.gen | sed "s/#$LOCALE/$LOCALE/" > ./new-locale.gen
@@ -46,19 +46,19 @@ locale-gen
 printf "LANG=$LOCALE" > /etc/locale.conf
 
 while true; do
-    info "Choose your preferred keyboard layout (type \"l\" to list available layouts)"
+	info "Choose your preferred keyboard layout (type \"l\" to list available layouts)"
 
-    read KEYMAP
+	read KEYMAP
 
-    case $KEYMAP in
-        l)
-            localectl list-keymaps
-            ;;
-        *)
-            [ ! -z "$(localectl list-keymaps | grep "$KEYMAP")" ] && break;
-            echo "Invalid keymap"
-            ;;
-    esac
+	case $KEYMAP in
+		l)
+			localectl list-keymaps
+			;;
+		*)
+			[ ! -z "$(localectl list-keymaps | grep "$KEYMAP")" ] && break;
+			echo "Invalid keymap"
+			;;
+	esac
 done
 
 echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
@@ -77,9 +77,9 @@ HOSTNAME="archlinux.desktop"
 
 echo "$HOSTNAME" > /etc/hostname
 
-printf "127.0.0.1        localhost\n\
-::1              localhost\n\
-127.0.1.1        $HOSTNAME        localhost" > /etc/hosts
+printf "127.0.0.1		localhost\n\
+::1		localhost\n\
+127.0.1.1		$HOSTNAME		localhost" > /etc/hosts
 
 # 3. Bootloader installation
 
@@ -89,20 +89,20 @@ pacman -S --noconfirm grub os-prober
 
 # Checking if computer is booted on UEFI mode
 if [[ ! -z "$(ls /sys/firmware/efi/efivars 2>/dev/null)" ]]; then
-    info "System booted in UEFI mode"
-    info "Installing GRUB for UEFI"
+	info "System booted in UEFI mode"
+	info "Installing GRUB for UEFI"
 
-    pacman -S --noconfirm efibootmgr
-    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+	pacman -S --noconfirm efibootmgr
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 else
-    info "System booted in BIOS mode"
-    info "Installing GRUB for BIOS"
+	info "System booted in BIOS mode"
+	info "Installing GRUB for BIOS"
 
-    read -p "\033[0;32mType the disk on which the system was installed: (dev/sdX) \033[0m" DEVICE
+	read -p "\033[0;32mType the disk on which the system was installed: (dev/sdX) \033[0m" DEVICE
 
-    info "Installing GRUB on disk $DEVICE"
+	info "Installing GRUB on disk $DEVICE"
 
-    grub-install --target=i386-pc "$DEVICE"
+	grub-install --target=i386-pc "$DEVICE"
 fi
 
 # Due to having os-prober installed, GRUB will check for other operating systems
@@ -114,8 +114,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 info "Change the root password"
 
 while true; do
-    passwd
-    [ "$?" -eq 0 ] && break
+	passwd
+	[ "$?" -eq 0 ] && break
 done
 
 cat /etc/sudoers | sed 's/# %sudo/%sudo/' > ./new-sudoers
@@ -131,8 +131,8 @@ useradd -m -G sudo "$USERNAME"
 info "Change your user password"
 
 while true; do
-    passwd "$USERNAME"
-    [ "$?" -eq 0 ] && break
+	passwd "$USERNAME"
+	[ "$?" -eq 0 ] && break
 done
 
 USER_HOME="/home/$USERNAME"
@@ -155,7 +155,7 @@ echo "exec dwm" >> "$USER_HOME/.xinitrc"
 
 # Initializing xorg after logging in to the created user
 printf "\nif [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" -eq 1 ]; then\n\
-    exec startx\n\
+	exec startx\n\
 fi\n" >> "$USER_HOME/.bash_profile"
 
 info "Installing dwm"
