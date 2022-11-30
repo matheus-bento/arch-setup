@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
-# This script runs some extra configurations for the graphic environment
-# after the applications have been installed by setup.sh
-
-# Prints a message in green into stdout
-
-info() {
-	printf "\033[0;32m%b\033[0m\n" "$1"
-}
+source ../globals.sh
 
 while true; do
 	info "Choose your preferred keyboard layout (type \"l\" to list available layouts)"
@@ -19,7 +12,7 @@ while true; do
 			localectl list-x11-keymap-layouts
 			;;
 		*)
-			[ ! -z "$(localectl list-x11-keymap-layouts | grep -x "$LAYOUT")" ] && break;
+			[[ ! -z "$(localectl list-x11-keymap-layouts | grep -x "$LAYOUT")" ]] && break;
 			echo "Invalid layout"
 			;;
 	esac
