@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-source ./globals.sh
+# Prints a message in green into stdout
+info() {
+	printf "\033[0;32m%b\033[0m\n" "$1"
+}
 
-function print-keymaps() {
+print-keymaps() {
 	find /usr/share/kbd/keymaps/i386 -regex ".*\.map\.gz" | sed 's/[A-Za-z0-9\-]*\///g; s/\.map.\gz//' | sort
 }
+
+# Variable contaning the setup script directory
+SCRIPT_DIR="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
 
 # 1. Localization
 
@@ -139,7 +145,7 @@ while true; do
 				echo "Flavor \"$FLAVOR\" not available"
 			else
 				info "Setting up the GUI"
-				bash "./$FLAVOR/setup.sh"
+				bash "./$FLAVOR/setup.sh" "$SCRIPT_DIR" "$USERNAME" "$USER_HOME"
 
 				break
 			fi

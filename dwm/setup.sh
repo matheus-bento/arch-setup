@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-source ../globals.sh
+# Prints a message in green into stdout
+info() {
+	printf "\033[0;32m%b\033[0m\n" "$1"
+}
 
 # Applies a git patch. Used to add patches to suckless applications.
 # Assumes you are running this function inside the target repo
@@ -13,6 +16,11 @@ apply-patch() {
 	patch -i "$PATCH_NAME"
 	rm -v "./$PATCH_NAME"
 }
+
+# Arguments passed on the script call
+SCRIPT_DIR=$1
+USERNAME=$2
+USER_HOME=$3
 
 info "Installing Xorg"
 
