@@ -135,8 +135,8 @@ while true; do
 			cat ./gui-flavors
 			;;
 		*)
-			if [[ -z "$(awk '$1 ~ /$FLAVOR/ { print $1 }' ./gui-flavors)" ]]; then
-				echo "Flavor \"$FLAVOR\" not available"
+			if [[ -z "$(awk "\$1 ~ /$FLAVOR/ { print \$1 }" ./gui-flavors)" ]]; then
+				echo 'Flavor "$FLAVOR" not available'
 				break
 			fi
 
