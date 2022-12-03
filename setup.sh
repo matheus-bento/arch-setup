@@ -132,7 +132,7 @@ while true; do
 
 	case $FLAVOR in
 		l)
-			echo ./gui-flavors
+			cat ./gui-flavors
 			;;
 		*)
 			if [[ -z "$(awk '$1 ~ /$FLAVOR/ { print $1 }' ./gui-flavors)" ]]; then
