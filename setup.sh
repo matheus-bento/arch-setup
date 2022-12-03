@@ -2,6 +2,10 @@
 
 source ./globals.sh
 
+function print-keymaps() {
+	find /usr/share/kbd/keymaps/i386 -regex ".*\.map\.gz" | sed 's/[A-Za-z0-9\-]*\///g; s/\.map.\gz//' | sort
+}
+
 # 1. Localization
 
 while true; do
@@ -34,10 +38,10 @@ while true; do
 
 	case $KEYMAP in
 		l)
-			localectl list-keymaps
+			print-keymaps
 			;;
 		*)
-			[[ ! -z "$(localectl list-keymaps | grep "$KEYMAP")" ]] && break;
+			[[ ! -z "$(print-keymaps | grep "$KEYMAP")" ]] && break;
 			echo "Invalid keymap"
 			;;
 	esac
