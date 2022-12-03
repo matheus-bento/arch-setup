@@ -137,11 +137,12 @@ while true; do
 		*)
 			if [[ -z "$(awk "\$1 ~ /$FLAVOR/ { print \$1 }" ./gui-flavors)" ]]; then
 				echo 'Flavor "$FLAVOR" not available'
-				break
 			fi
 
 			info "Setting up the GUI"
 			bash "./$FLAVOR/setup.sh"
+
+			break
 			;;
 	esac
 done
