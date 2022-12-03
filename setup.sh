@@ -38,7 +38,7 @@ while true; do
 
 	case $KEYMAP in
 		l)
-			print-keymaps
+			print-keymaps | less
 			;;
 		*)
 			[[ ! -z "$(print-keymaps | grep "$KEYMAP")" ]] && break;
